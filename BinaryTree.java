@@ -73,7 +73,7 @@ public int sumPaths(Node root, int currSum) {
         return currSum * 10 + root.val;
     }
 
-    return sumPaths(root.left, currSum * 10 + root.val) && 
+    return sumPaths(root.left, currSum * 10 + root.val) + 
         sumPaths(root.right, currSUm * 10 + root.val);
 }
 
