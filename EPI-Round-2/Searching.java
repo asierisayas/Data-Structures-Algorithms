@@ -22,7 +22,7 @@ public int searchFirst(int[] nums, int target) {
         }
     }
 
-    return first
+    return first;
 }
 
 /*
