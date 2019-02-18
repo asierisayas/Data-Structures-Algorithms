@@ -140,41 +140,51 @@ public UndirectedGraphNode cloneGraphUtil(UndirectedGraphNode node, Map<Undirect
 Given a dictionary D and two strings s and t, write a program to determine
 if s produces t, output the length of the shortest production sequence
 */
-private static class StringWithDistance {
-    public String str;
-    public int distance;
-    public StringWithDistance(String str, int distance) {
-        this.str = str;
-        this.distance = distance;
+class WordNode{
+    String word;
+    int numSteps;
+ 
+    public WordNode(String word, int numSteps){
+        this.word = word;
+        this.numSteps = numSteps;
     }
 }
 
-public static int wordLadder(String s, String t, List<String> dict) {
-    Queue<StringWithDistance> q = new LinkedList<>();
-    q.offer(new StrignWithDistance(s, 0));
+public int ladderLength(String beginWord, String endWord, Set<String> wordDict) {
+    Queue<WordNode> queue = new LinkedList<WordNode>();
+    queue.add(new WordNode(beginWord, 1));
 
-    while (!q.isEmpty()) {
-        StringWithDistance popped = q.poll();
-        if (popped.str.equals(t)) {
-            return popped.distance;
+    wordDict.add(endWord);
+
+    while(!queue.isEmpty()){
+        WordNode top = queue.poll();
+        String word = top.word;
+
+        if(word.equals(endWord)){
+            return top.numSteps;
         }
 
-        String curr = popped.str;
-        for (int i = 0; i < curr.length(); i++) {
-            String start = i == 0 ? "" : curr.substring(0, i);
-            String end = i + 1 < curr.length() ? curr.substring(i + 1) : "";
-            for (int j = 0; j < 26; j++) [
-                String cand = start + (char) ('a' + j) + end;
-                if (dict.remove(cand)) {
-                    q.add(new StringWithDistance(cand, curr.distance + 1));
+        char[] arr = word.toCharArray();
+        for(int i=0; i<arr.length; i++){
+            for(char c='a'; c<='z'; c++){
+                char temp = arr[i];
+                if(arr[i]!=c){
+                    arr[i]=c;
                 }
-            ]
+
+                String newWord = new String(arr);
+                if(wordDict.contains(newWord)){
+                    queue.offer(new WordNode(newWord, top.numSteps+1));
+                    wordDict.remove(newWord);
+                }
+
+                arr[i]=temp;
+            }
         }
     }
 
-    return -1;
+    return 0;
 }
-
 //Topological Sort
 public Stack<Node> topSortUtil(Node node, Set<Node> set, Stack<Node> stack) {
     set.add(node);
