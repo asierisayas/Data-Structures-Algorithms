@@ -1,0 +1,134 @@
+/**
+ * Test if a Binary Tree is height-balanced
+ */
+public boolean isBalanced(TreeNode root) {
+    if (root == null) {
+        return true;
+    }
+    
+    if (Math.abs(getHeight(root.left) - getHeight(root.right)) <= 1) {
+        return isBalanced(root.left) && isBalanced(root.right);
+    }
+    
+    return false;
+}
+
+public int getHeight(TreeNode root) {
+    if (root == null)
+        return -1;
+    
+    return Math.max(getHeight(root.left), getHeight(root.right)) + 1;
+}
+
+/**
+ * Test if a binary tree is symmetric
+ */
+public boolean isSymmetric(TreeNode root) {
+    return isSymmetric(root, root);
+}
+
+public boolean isSymmetric(TreeNode rootOne, TreeNode rootTwo) {
+    if (rootOne == null && rootTwo == null)
+        return true;
+    if (rootOne == null || rootTwo == null)
+        return false;
+    
+    return rootOne.val == rootTwo.val && isSymmetric(rootOne.left, rootTwo.right) &&                 isSymmetric(rootOne.right, rootTwo.left);
+}
+
+/**
+ * Sum the root to leaf paths in a binary tree
+ */
+public int sumNumbers(TreeNode root) {
+    return sumNumbers(root, 0);
+}
+
+public int sumNumbers(TreeNode root, int sum) {
+    if (root == null) {
+        return 0;
+    } else if (root.left == null && root.right == null) {
+        return sum * 10 + root.val;
+    }
+    
+    return sumNumbers(root.left, (sum*10) + root.val) + sumNumbers(root.right, (sum*10) + root.val);
+}
+
+/**
+ * Find a root to leaf path with specified sum
+ */
+public boolean hasPathSum(TreeNode root, int sum) {
+    if (root == null) {
+        return false;
+    }
+    if (root.left == null && root.right == null && (sum - root.val == 0)) {
+        return true;
+    }
+    
+    return hasPathSum(root.left, sum - root.val) || hasPathSum(root.right, sum - root.val);
+}
+
+/**
+ * Implement an inorder traversal without recursion
+ */
+public List<Integer> inorderTraversal(TreeNode root) {
+    List<Integer> output = new ArrayList<>();
+    Stack<TreeNode> stack = new Stack<>();
+    TreeNode curr = root;
+    
+    while (curr != null || !stack.isEmpty()) {
+        if (curr != null) {
+            stack.push(curr);
+            curr = curr.left;
+        } else {
+            TreeNode popped = stack.pop();
+            output.add(popped.val);
+            curr = popped.right;
+        }
+    }
+    
+    return output;
+}
+
+/**
+ * Implement a preorder traversal without recursion
+ */
+public List<Integer> preorderTraversal(TreeNode root) {
+    List<Integer> output = new ArrayList<>();
+    
+    if (root == null)
+        return output;
+    
+    Stack<TreeNode> stack = new Stack<>();
+    
+    TreeNode curr = root;
+    stack.push(curr);
+    while (!stack.isEmpty()) {
+        TreeNode popped = stack.pop();
+        output.add(popped.val);
+        if (popped.right != null)
+            stack.push(popped.right);
+        if (popped.left != null)
+            stack.push(popped.left);
+    }
+    
+    return output;
+}
+
+/**
+ * Compute the successor
+ */
+public TreeNode inorderSuccessor(TreeNode root, TreeNode p) {
+    TreeNode curr = root;
+    TreeNode cand = null;
+    
+    while (curr != null) {
+        if (curr.val > p.val) {
+            cand = curr;
+            curr = curr.left;
+        } else {
+            curr = curr.right;
+        }
+    }
+    
+    return cand;
+}
