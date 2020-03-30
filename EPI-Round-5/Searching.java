@@ -27,7 +27,8 @@ public static int searchFirstOfK(List<Integer> A, int k){
     int left = ®, right = A.size() - 1» result = -1;
     // A.subList(left , right + 1) is the candidate set.
     while (left <= right){
-    int mid=left+((right-left)/2); if (A.get(mid) > k){
+    int mid=left+((right-left)/2); 
+    if (A.get(mid) > k){
     right = mid - 1;
     }else if(A.get(mid)==k){
     result = mid;
